@@ -10,6 +10,16 @@ library(proxy)
 file <- getURL("https://raw.githubusercontent.com/BobAdamsEE/SouthParkData/master/All-seasons.csv")
 SP <- read.csv(text = file,stringsAsFactors = FALSE)
 
+#Lines per character
+Character_popular = SP %>% group_by(Character) %>%
+  summarise(lines = n()) %>%
+  arrange(desc(lines))
+
+#Selecting top ten most popular characters all time
+Character_popular_most = Character_popular %>%
+  select(Character) %>% slice(1:20) %>% 
+  unlist() %>% as.character()
+
 #Repeating algroithm with different cuss list and agregating by character
 Cuss_new=c(unique(tolower(lexicon::profanity_alvarez)))
 
